@@ -17,7 +17,7 @@ Please kindly cite the following paper if you use this repository.
 
 ```
 @unpublished{shiri2025,
-  author       = {Giovanni Baj; Nicola Ciocca; Pooya Mohammadi Kazaj; Xuan Ma, Annina A Studer Bruengger; Simon F. Stämpfli; Niklas F Ehl; Sarah Hugelshofer; Otmar Pfister; Joëlle Lehmann; Christoph Ryffel; Lukas Hunziker; Michael Poledniczek; Andreas Kammerlander; George CM Siontis; Stephan Windecker; Moritz J. Hundertmark; Christian Nitsche; Isaac Shiri; Christoph Gräni},
+  author       = {Giovanni Baj and Nicola Ciocca and Pooya Mohammadi Kazaj and Xuan Ma, Annina A Studer Bruengger and Simon F. Stämpfli and Niklas F Ehl and Sarah Hugelshofer and Otmar Pfister and Joëlle Lehmann and Christoph Ryffel and Lukas Hunziker and Michael Poledniczek and Andreas Kammerlander and George CM Siontis and Stephan Windecker and Moritz J. Hundertmark and Christian Nitsche and Isaac Shiri and Christoph Gräni},
   title        = {Machine Learning–Driven Risk Prediction Model for Major Adverse Cardiovascular Events in Transthyretin Amyloid Cardiomyopathy: A Multicenter Study Development and Testing},
   note         = {Under review},
   year         = {2026}
@@ -27,7 +27,7 @@ Please kindly cite the following paper if you use this repository.
 
 ```
 Machine Learning–Driven Risk Prediction Model for Major Adverse Cardiovascular Events in Transthyretin Amyloid Cardiomyopathy: A Multicenter Study Development and Testing
-Giovanni Baj; Nicola Ciocca; Pooya Mohammadi Kazaj; Xuan Ma, Annina A Studer Bruengger; Simon F. Stämpfli; Niklas F Ehl; 
+Giovanni Baj and Nicola Ciocca; Pooya Mohammadi Kazaj; Xuan Ma, Annina A Studer Bruengger; Simon F. Stämpfli; Niklas F Ehl; 
 Sarah Hugelshofer; Otmar Pfister; Joëlle Lehmann; Christoph Ryffel; Lukas Hunziker; Michael Poledniczek; Andreas Kammerlander; 
 George CM Siontis; Stephan Windecker; Moritz J. Hundertmark; Christian Nitsche; Isaac Shiri; Christoph Gräni  
 Under Review, 2026.
