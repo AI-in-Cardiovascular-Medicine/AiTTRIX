@@ -1,0 +1,75 @@
+defaults:
+  - override hydra/hydra_logging: disabled
+  - override hydra/job_logging: disabled
+  - _self_ # keep this to the end of defaults to have config.yaml override values set in other yamls
+
+hydra:
+  output_subdir: null
+  run:
+    dir: .
+
+meta:
+  train_file: "datasets/train.xlsx"
+  test_files: [
+   "datasets/swiss.xlsx",
+   "datasets/vienna.xlsx",
+   "datasets/swiss_vienna_treated.xlsx"
+  ]
+  suffixes_test: [
+    "swiss",
+    "vienna",
+    "swiss_vienna_treated"
+  ]
+  out_dir: results/rsf
+  paths_manually_selected_features: [
+    "datasets/manual_selection/SelectKBest_14_shap_order.json"
+  ]
+  names_manually_selected_features: [
+    "SelectKBest_selection",
+  ]
+  events: "mace"
+  times: "time_to_first_mace"
+  competing_events:
+  sex_column: "Gender"
+  pat_id_column:
+  seed: 42
+  n_seeds: 1
+  n_workers: 20
+  plot_format: "png"
+  plot_dpi: 300
+
+preprocessing:
+  save_as_pickle: True  # save the preprocessed data as pickle file for each seed
+  test_size:
+  corr_threshold:
+  replace_zero_time_with: 0.01
+  impute_strategy: "missforest_rsf"
+  separate_imputation: False  # fit imputer on train and test set separately
+  clip_imputed_values: True  # clip imputed values to min and max of original (non-imputed) data
+  columns_to_drop: ["Weight", "Height", "Creatinine", "Oral_anticoagulant", "NAC_score",
+                    "Aortic_valve_disease_above_grade_I", "Mitral_valve_disease_above_grade_I",
+                    "Tricuspid_valve_disease_above_grade_I"]
+evaluation:
+  eval_times:  [ 365, 730, 1095 ]
+  eval_times_names: [ "1y", "2y", "3y" ]
+  calibration_curve_method: "hazard"  # cox , hazard
+  bootstrap_iterations: 1000
+
+survival:
+  n_cv_splits: 5
+  n_iter_search: 1000
+  max_features_to_select: 15  # max n. of features to select
+  min_features_to_select: 14   # min n . of features to select
+  feature_selectors:
+    SelectKBest: True
+    Manual: False
+  models:
+    CoxPH: False
+    RSF: True
+
+explainability:
+  compute_shap: True
+  shap_background_size: 100  # number of samples to use as background dataset for SHAP
+  combine_test_sets: True
+  n_timestamps: 10  # number of time points to compute SHAP values for
+  feature_map_path: datasets/features_dict.json
