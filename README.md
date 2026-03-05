@@ -9,7 +9,7 @@ AiTTRIX was developed using a Bern, Switzerland, cohort and externally validated
 well as an independent Vienna, Austria, cohort. AiTTRIX outperformed conventional risk scores and demonstrated strong generalizability across diverse populations.
 
 # License
-This project is covered under the [Attribution-NonCommercial 4.0 International](LICENSE.md) License.
+This project is covered under the [Attribution-NonCommercial 4.0 International](LICENSE) License.
 
 # Citation
 Please kindly cite the following paper if you use this repository.
