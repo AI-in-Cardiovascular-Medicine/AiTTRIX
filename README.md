@@ -17,10 +17,12 @@ Please kindly cite the following paper if you use this repository.
 
 ```
 @unpublished{shiri2025,
-  author       = {Giovanni Baj, Nicola Ciocca, Pooya Mohammadi Kazaj, Xuan Ma, Annina A Studer Bruengger, Simon F. Stämpfli, Niklas F Ehl, Sarah Hugelshofer,
-                  Otmar Pfister, Joëlle Lehmann, Christoph Ryffel, Lukas Hunziker, Michael Poledniczek, Andreas Kammerlander, George CM Siontis, Stephan Windecker,
-                  Moritz J. Hundertmark, Christian Nitsche, Isaac Shiri, Christoph Gräni},
-  title        = {Machine Learning–Driven Risk Prediction Model for Major Adverse Cardiovascular Events in Transthyretin Amyloid Cardiomyopathy: A Multicenter Study Development and Testing},
+  author       = { Giovanni Baj, Nicola Ciocca, Pooya Mohammadi Kazaj, Xuan Ma, Annina A Studer Bruengger, Simon F. Stämpfli,
+                   Niklas F Ehl, Sarah Hugelshofer, Otmar Pfister, Joëlle Lehmann, Christoph Ryffel, Lukas Hunziker,
+                   Michael Poledniczek, Andreas Kammerlander, George CM Siontis, Stephan Windecker,
+                   Moritz J. Hundertmark, Christian Nitsche, Isaac Shiri, Christoph Gräni},
+  title        = {Machine Learning–Driven Risk Prediction Model for Major Adverse Cardiovascular Events in
+                  Transthyretin Amyloid Cardiomyopathy: A Multicenter Study Development and Testing},
   note         = {Under review},
   year         = {2026}
 }
