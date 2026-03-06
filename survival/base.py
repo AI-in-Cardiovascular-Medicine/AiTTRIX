@@ -58,7 +58,7 @@ class BaseEvaluator:
         return risk_scores
 
     @staticmethod
-    def bootstrap_step(risk, risk_time, y, y_train, eval_times, tau, time_column, event_column, calibration_method):
+    def bootstrap_step(risk, risk_time, y, y_train, eval_times, tau, time_column, event_column):
         """
         Computes bootstrap estimates of survival metrics on resampled data. Static method to allow parallel processing.
 
@@ -97,7 +97,7 @@ class BaseEvaluator:
         mean_calib = mean_calibration(durations=y_resampled[time_column], eval_times=eval_times,
                                       events=y_resampled[event_column], risk_scores=risk_time_resampled).values
         ici = ici_survival_times(durations=y_resampled[time_column], events=y_resampled[event_column], parallel=False,
-                                 risk_times=risk_time_resampled, times=eval_times, method=calibration_method)
+                                 risk_times=risk_time_resampled, times=eval_times)
         if any(eval_times_outside):
             n_nan_to_add = sum(eval_times_outside)
             roc_auc = np.insert(roc_auc, len(roc_auc), [np.nan] * n_nan_to_add)
@@ -120,7 +120,7 @@ class BaseEvaluator:
         - Dictionary of median and 95% confidence intervals for c-indexes, AUC,
           mean calibration, and ICI.
         """
-        args = (risk, risk_time, y, self.y_train, self.eval_times, self.tau, self.time_column, self.event_column, self.calibration_method)
+        args = (risk, risk_time, y, self.y_train, self.eval_times, self.tau, self.time_column, self.event_column)
         boot_results = Parallel(n_jobs=-1)(delayed(self.bootstrap_step)(*args) for _ in range(self.bootstrap_iterations))
         # boot_results = []
         # for _ in range(self.bootstrap_iterations):
@@ -214,7 +214,7 @@ class BaseEvaluator:
         mean_calibration_values = mean_calibration(durations=y[self.time_column], events=y[self.event_column],
                                                    risk_scores=risk_at_times, eval_times=self.eval_times)
         ici_values = ici_survival_times(durations=y[self.time_column], events=y[self.event_column],
-                                        risk_times=risk_at_times, times=self.eval_times, method=self.calibration_method)
+                                        risk_times=risk_at_times, times=self.eval_times)
         if time_dependent:
             cindex_antolini = antolini_concordance_index(durations=y[self.time_column], labels=y[self.event_column],
                                                          cuts=self.eval_times, risk=risk_at_times,

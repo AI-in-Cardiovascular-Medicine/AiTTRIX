@@ -51,7 +51,6 @@ preprocessing:
 evaluation:
   eval_times:  [ 365, 730, 1095 ]
   eval_times_names: [ "1y", "2y", "3y" ]
-  calibration_curve_method: "hazard"  # cox , hazard
   bootstrap_iterations: 1000
 
 survival:

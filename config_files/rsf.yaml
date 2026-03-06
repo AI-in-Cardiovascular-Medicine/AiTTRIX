@@ -21,12 +21,8 @@ meta:
     "swiss_vienna_treated"
   ]
   out_dir: results/rsf
-  paths_manually_selected_features: [
-    "datasets/manual_selection/SelectKBest_14_shap_order.json"
-  ]
-  names_manually_selected_features: [
-    "SelectKBest_selection",
-  ]
+  paths_manually_selected_features: [ ]
+  names_manually_selected_features: [ ]
   events: "mace"
   times: "time_to_first_mace"
   competing_events:
@@ -52,7 +48,6 @@ preprocessing:
 evaluation:
   eval_times:  [ 365, 730, 1095 ]
   eval_times_names: [ "1y", "2y", "3y" ]
-  calibration_curve_method: "hazard"  # cox , hazard
   bootstrap_iterations: 1000
 
 survival:

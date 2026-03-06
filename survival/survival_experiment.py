@@ -43,7 +43,6 @@ class SurvivalExperiment(BaseEvaluator):
         self.eval_times = np.array(config.evaluation.eval_times)
         self.eval_times_names = config.evaluation.eval_times_names
         self.tau = self.eval_times[-1]  # truncation time (used only for computing Uno's c-index)
-        self.calibration_method = config.evaluation.calibration_curve_method
         self.bootstrap_iterations = config.evaluation.bootstrap_iterations
         self._load_manual_features(config)
         self.total_combinations = (
