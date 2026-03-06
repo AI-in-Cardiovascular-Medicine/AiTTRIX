@@ -27,7 +27,7 @@ def mean_calibration(durations, events, risk_scores, eval_times):
     return mean_calibration
 
 
-def ici_survival(durations, labels, risk, time, return_calib_model=False, method="cox"):
+def ici_survival(durations, labels, risk, time, return_calib_model=False):
     """Function to compute the integrated calibration index for time-to-event outcome, at a given time instant.
     To produce smooth calibration curves, the hazard of the outcome is regressed on the predicted outcome risk using a
     flexible regression model. Then the ICI is the weighted difference between smoothed observed proportions and
@@ -61,15 +61,14 @@ def ici_survival(durations, labels, risk, time, return_calib_model=False, method
         return ici
 
 
-def ici_survival_times(durations, events, risk_times, times, comp_risk=False, return_calib_models=False, parallel=True, method="cox"):
-    """Compute the ICI for time-to-event outcome at different time points, with or without competing risks.
+def ici_survival_times(durations, events, risk_times, times, return_calib_models=False, parallel=True):
+    """Compute the ICI for time-to-event outcome at different time points without competing risks.
 
         Input
          - durations: Events/censoring times
-         - events: array of event indicators (0: censored, 1:event of interest, 2.... competing events)
+         - events: array of event indicators (0: censored, 1:event of interest)
          - risk_times: predicted risk at the given time points
          - time: time instants at which ICI has to be computed
-         - comp_risk: boolean. If True competing risks are taken into account.
          - return_calib_models: bool, if True also the calibration models are returned
          - parallel: bool, if True the ICI at different times are computed in parallel
         Output
@@ -78,10 +77,10 @@ def ici_survival_times(durations, events, risk_times, times, comp_risk=False, re
     """
     if parallel:
         ici_models = Parallel(n_jobs=30)(delayed(ici_survival)(durations, events, risk_times[:, i],
-                                                               time, return_calib_model=True, method=method)
+                                                               time, return_calib_model=True)
                                          for i, time in enumerate(times))
     else:
-        ici_models = [ici_survival(durations, events, risk_times[:, i], t, return_calib_model=True, method=method)
+        ici_models = [ici_survival(durations, events, risk_times[:, i], t, return_calib_model=True)
                       for i, t in enumerate(times)]
     ici_at_times, calibration_models = zip(*ici_models)
     ici_at_times = np.array(ici_at_times)
@@ -89,25 +88,20 @@ def ici_survival_times(durations, events, risk_times, times, comp_risk=False, re
     return (ici_at_times, calibration_models) if return_calib_models else ici_at_times
 
 
-def calibration_plot_survival(durations, events, risk, time, calibration_model=None, comp_risk=False, method="cox"):
+def calibration_plot_survival(durations, events, risk, time, calibration_model=None):
     stats = importr("stats")
-
     labels = robjects.FloatVector(events)
     durations = robjects.FloatVector(durations)
-
     fig, ax = plt.subplots(2, 1, figsize=(6, 6), gridspec_kw={'height_ratios': [3, 1]}, sharex=True)
-
     # Creation of the grid for plotting
     risk_r = r_vector(risk)
     grid = r.seq(stats.quantile(risk_r, probs=0.025), stats.quantile(risk_r, probs=0.975), length=100)
     grid_cll = robjects.FloatVector(np.log(-np.log(1 - np.array(grid))))  # complementary log-log grid
     if calibration_model is None:  # if no model is given as input, we fit it
-        _, calibration_model = ici_survival(durations, labels, risk, time, return_calib_model=True, method=method)
-
+        _, calibration_model = ici_survival(durations, labels, risk, time, return_calib_model=True)
     # Predicted probability for grid points
     polspline = importr("polspline")
     predict_grid = polspline.phare(time, grid_cll, calibration_model)
-
     # Make figure
     ax1 = ax[0]
     ax1.plot(grid, predict_grid, "-", linewidth=2, color="red")
@@ -116,7 +110,6 @@ def calibration_plot_survival(durations, events, risk, time, calibration_model=N
     ax1.set_ylabel("Observed probability")
     ax1.set_title(f"{int(time / 365)}-year calibration curve")
     ax1.plot([0, 1], [0, 1], color='black')
-
     # Compute observed incidence
     df = pd.DataFrame({"risk": risk, "time": durations, "event": labels})
     df["risk_group"] = pd.qcut(df["risk"], q=3, labels=False)  # 5 quantile groups
@@ -128,15 +121,12 @@ def calibration_plot_survival(durations, events, risk, time, calibration_model=N
         kmf.fit(group_data["time"], event_observed=group_data["event"], label=f"Group {group + 1}")
         observed_incidence.append(kmf.cumulative_density_at_times(times=[time]).iloc[0])
         estimated_risk.append(group_data["risk"].mean())
-
     ax1.plot(estimated_risk, observed_incidence, '.', color=cm.tab10.colors[1])
-
     # Density plot (separate subplot at bottom)
     ax2 = ax[1]
     sns.histplot(risk, ax=ax2, color='tab:blue')
     ax2.set_ylabel("Density")
     ax2.set_xlabel("Predicted probability")
-
     # Adjust layout
     fig.tight_layout()
     plt.close()
