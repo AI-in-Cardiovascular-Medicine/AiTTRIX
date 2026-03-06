@@ -7,6 +7,12 @@ model, is a clinical decision support platform for individualized prognostic ass
 
 AiTTRIX was developed using a Bern, Switzerland, cohort and externally validated across five centers in Switzerland, as
 well as an independent Vienna, Austria, cohort. AiTTRIX outperformed conventional risk scores and demonstrated strong generalizability across diverse populations.
+# Web App
+
+The AiTTRIX Web Application provides access to the AI models developed for AiTTRIX.
+You can access the web app via the following link:
+🔗 https://ai-cvm.com/software/AiTTRIX
+
 
 # License
 This project is covered under the [Attribution-NonCommercial 4.0 International](LICENSE) License.
